@@ -18,3 +18,4 @@
 /Users/s2401566/Documents/portfolio/ohjelmointi/c-sharp-ohjelmointi/tunti1/läksyt/straightfour/project/obj/Debug/net8.0/project.dll
 /Users/s2401566/Documents/portfolio/ohjelmointi/c-sharp-ohjelmointi/tunti1/läksyt/straightfour/project/obj/Debug/net8.0/refint/project.dll
 /Users/s2401566/Documents/portfolio/ohjelmointi/c-sharp-ohjelmointi/tunti1/läksyt/straightfour/project/obj/Debug/net8.0/project.pdb
+/Users/s2401566/Documents/portfolio/ohjelmointi/c-sharp-ohjelmointi/tunti1/läksyt/straightfour/project/obj/Debug/net8.0/project.sourcelink.json

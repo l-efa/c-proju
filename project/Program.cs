@@ -21,6 +21,7 @@ namespace project
                 {"|","-","-","-","-","-","-","-","-","|"},
                 {"+","~","~","~","~","~","~","~","~","+"}
             };
+            //Console.WriteLine(gameBoard);
 
             draw();
 
@@ -45,6 +46,7 @@ namespace project
                     if (userInput == "reset") 
                     {
                         clearBoard();
+                        i = 0;
                         continue;
                     }
 
