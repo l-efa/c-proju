@@ -1,16 +1,13 @@
 ﻿using System;
 
-namespace project 
+namespace project
 {
-    class Program 
+    class Program
     {
-        static void Main(string[] args) 
-        {
-            int playerValue = 0;
-            bool isInputValid = false;
+        static int i = 0;
 
-            // Rakenne pelikentälle
-            string [,] gameBoard = 
+        // Rakenne pelikentälle
+        static string[,] gameBoard =
             {
                 {"|","-","-","-","-","-","-","-","-","|"},
                 {"|","-","-","-","-","-","-","-","-","|"},
@@ -21,29 +18,34 @@ namespace project
                 {"|","-","-","-","-","-","-","-","-","|"},
                 {"+","~","~","~","~","~","~","~","~","+"}
             };
+        static void Main(string[] args)
+        {
+            int playerValue = 0;
+            bool isInputValid = false;
+
             //Console.WriteLine(gameBoard);
 
             draw();
 
             // pää looppi, kysyy rivinumeroa jolle pelaaja haluaa pelata vuoronsa. todo: while loopilla mielummin?
-            for(int i = 0; i < 100; i++)
+            for (i = 0; i < 100; i++)
             {
-                // katsotaan onko input täydellinen
-                do 
+                // katsotaan onko input täydellinen (input virheen esto)
+                do
                 {
                     isInputValid = false;
 
-                    if (i % 2 == 0) 
+                    if (i % 2 == 0)
                     {
                         Console.Write("player o: ");
                     }
-                    else 
+                    else
                     {
                         Console.Write("player x: ");
                     }
 
                     string userInput = Console.ReadLine();
-                    if (userInput == "reset") 
+                    if (userInput == "reset")
                     {
                         clearBoard();
                         i = 0;
@@ -55,7 +57,7 @@ namespace project
                         Console.WriteLine("Not a number between 1-8!");
                         isInputValid = false;
                     }
-                    else if(int.TryParse(userInput, out playerValue)) 
+                    else if (int.TryParse(userInput, out playerValue))
                     {
                         if (playerValue < 1 || playerValue > 8)
                         {
@@ -65,7 +67,7 @@ namespace project
                         {
                             isInputValid = true;
                         }
-                        else 
+                        else
                         {
                             Console.WriteLine("This row is already full, select another one!");
                         }
@@ -75,171 +77,138 @@ namespace project
                 while (isInputValid == false);
 
 
-                // laitetaan pelaajan merkki oikeaan kohtaan, katsotaan alin rivi ekana
-                for (int j = 6; j >= 0; j--) 
+                // laitetaan pelaajan merkki oikeaan kohtaan
+
+                for (int j = 0; j < 7; j++)
                 {
-                    if (gameBoard[j, playerValue] == "-") 
+                    if (gameBoard[j, playerValue] == "-")
                     {
                         if (i % 2 == 0)
                         {
-                            gameBoard[j, playerValue] = "o";
-                            draw();
-                            checkWin("o");
-                            break;
+                            dropPiece(playerValue, i, j, "o");
                         }
-                        else 
-                        {   
-                            gameBoard[j, playerValue] = "x";
-                            draw();
-                            checkWin("x");
-                            break;
-                        }
-                    }
-                }
-
-                if(i == 55) 
-                {
-                    Console.WriteLine("It's a tie!");
-                    Environment.Exit(1);
-                }
-            }
-
-
-            // funktio joka piirtää pelikentän
-            void draw() 
-            {
-                Console.WriteLine(" 12345678 ");
-                for(int l = 0; l < 8; l++)
-                {
-                    for(int m = 0; m < 10; m++) 
-                    {
-                        Console.Write(gameBoard[l, m]);
-                    }
-                    Console.WriteLine();
-                }
-                Console.WriteLine(" 12345678 ");
-                Console.WriteLine("-------------------");
-            }
-
-            // funktio joka tarkastaa onko voittajaa
-            void checkWin(string turn) 
-            {
-                for (int i = 0; i < 7; i++)
-                {
-                    for (int j = 1; j < 9; j++) 
-                    {
-                        if(turn == "o")
+                        else
                         {
-                            if (gameBoard[i, j] == "o") 
-                            {
-                                // tarkistaa onko vaakasuunnassa voittoa
-                                if (gameBoard[i, j + 1] == "o" && gameBoard[i, j + 2] == "o" && gameBoard[i, j + 3] == "o") 
-                                {
-                                    draw();
-                                    Console.WriteLine("o wins!");
-                                    Environment.Exit(1);
-                                }
-
-                                // tarkistaa onko pystysuunnassa voittoa
-                                if(gameBoard [i + 1, j] == "o" && gameBoard[i + 2, j] == "o" && gameBoard[i + 3, j] == "o")
-                                {
-                                    draw();
-                                    Console.WriteLine("o wins!");
-                                    Environment.Exit(1);
-                                }
-
-                                // tarkistaa onko viistosuunnassa oikealle voittoa
-                                if(gameBoard [i + 1, j + 1] == "o" && gameBoard[i + 2, j + 2] == "o" && gameBoard[i + 3, j + 3] == "o") 
-                                {
-                                    draw();
-                                    Console.WriteLine("o wins!");
-                                    Environment.Exit(1);
-                                }
-
-                                // tarkistaa onko viistosuunnassa vasemmalle voittoa
-                                if (gameBoard [i + 1, j - 1] == "o" && gameBoard[i + 2, j - 2] == "o" && gameBoard[i + 3, j - 3] == "o")
-                                {
-                                    draw();
-                                    Console.WriteLine("o wins!");
-                                    Environment.Exit(1);
-                                }
-                            }
-                        }
-                        else if(turn == "x")
-                        {
-                            if (gameBoard[i, j] == "x") 
-                            {
-                                // tarkistaa onko vaakasuunnassa voittoa
-                                if (gameBoard[i, j + 1] == "x" && gameBoard[i, j + 2] == "x" && gameBoard[i, j + 3] == "x") 
-                                {
-                                    draw();
-                                    Console.WriteLine("x wins!");
-                                    Environment.Exit(1);
-                                }
-
-                                // tarkistaa onko pystysuunnassa voittoa
-                                if(gameBoard [i + 1, j] == "x" && gameBoard[i + 2, j] == "x" && gameBoard[i + 3, j] == "x")
-                                {
-                                    draw();
-                                    Console.WriteLine("x wins!");
-                                    Environment.Exit(1);
-                                }
-
-                                // tarkistaa onko viistosuunnassa oikealle voittoa
-                                if(gameBoard [i + 1, j + 1] == "x" && gameBoard[i + 2, j + 2] == "x" && gameBoard[i + 3, j + 3] == "x") 
-                                {
-                                    draw();
-                                    Console.WriteLine("x wins!");
-                                    Environment.Exit(1);
-                                }
-
-                                // tarkistaa onko viistosuunnassa vasemmalle voittoa
-                                if (gameBoard [i + 1, j - 1] == "x" && gameBoard[i + 2, j - 2] == "x" && gameBoard[i + 3, j - 3] == "x")
-                                {
-                                    draw();
-                                    Console.WriteLine("x wins!");
-                                    Environment.Exit(1);
-                                }
-                            }
-
+                            dropPiece(playerValue, i, j, "x");
                         }
                     }
                 }
             }
 
-            // katsotaan onko ylimmän rivin columnissa tilaa
-            bool isRowValid(int column)
+            if (i == 55)
             {
-                bool isValid = false;
-                
-                if(gameBoard[0, column] == "-") 
-                {
-                    isValid = true;
-                }
-                else if (gameBoard[0, column] == "o" || gameBoard[0, column] == "x") 
-                {
-                    isValid = false;
-                }
+                Console.WriteLine("It's a tie!");
+                Environment.Exit(1);
+            }
+        }
 
-                return isValid;
+
+        // funktio joka piirtää pelikentän
+        static void draw()
+        {
+            Console.WriteLine(" 12345678 ");
+            for (int l = 0; l < 8; l++)
+            {
+                for (int m = 0; m < 10; m++)
+                {
+                    Console.Write(gameBoard[l, m]);
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(" 12345678 ");
+            Console.WriteLine("-------------------");
+        }
+
+
+        // katsotaan onko ylimmän rivin columnissa tilaa
+        static bool isRowValid(int column)
+        {
+            bool isValid = false;
+
+            if (gameBoard[0, column] == "-")
+            {
+                isValid = true;
+            }
+            else if (gameBoard[0, column] == "o" || gameBoard[0, column] == "x")
+            {
+                isValid = false;
             }
 
-            // tyhjentää pelialustan
-            void clearBoard() 
+            return isValid;
+        }
+
+        // tyhjentää pelialustan
+        static void clearBoard()
+        {
+            for (int row = 0; row < 7; row++)
             {
-                for(int row = 0; row < 7; row++) 
+                for (int col = 0; col < 9; col++)
                 {
-                    for (int col = 0; col < 9; col++) 
+                    if (gameBoard[row, col] == "x" || gameBoard[row, col] == "o")
                     {
-                        if (gameBoard[row, col] == "x" || gameBoard[row, col] == "o") 
+                        gameBoard[row, col] = "-";
+                        draw();
+                    }
+                }
+            }
+        }
+
+        // laitetaan pelinappula oikeeseen paikkaan
+        static void dropPiece(int playerValue, int i, int j, string player)
+        {
+            gameBoard[j, playerValue] = player;
+            draw();
+            if (gameBoard[j + 1, playerValue] == "-")
+            {
+                gameBoard[j, playerValue] = "-";
+                System.Threading.Thread.Sleep(300);
+            }
+            checkWin(player);
+        }
+
+        // katsotaan onko voittajaa
+        static void checkWin(string player)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 1; j < 9; j++)
+                {
+                    if (gameBoard[i, j] == player)
+                    {
+                        // tarkistaa onko vaakasuunnassa voittoa
+                        if (gameBoard[i, j + 1] == player && gameBoard[i, j + 2] == player && gameBoard[i, j + 3] == player)
                         {
-                            gameBoard[row, col] = "-";
                             draw();
+                            Console.WriteLine($"{player} wins!");
+                            Environment.Exit(1);
+                        }
+
+                        // tarkistaa onko pystysuunnassa voittoa
+                        if (gameBoard[i + 1, j] == player && gameBoard[i + 2, j] == player && gameBoard[i + 3, j] == player)
+                        {
+                            draw();
+                            Console.WriteLine($"{player} wins!");
+                            Environment.Exit(1);
+                        }
+
+                        // tarkistaa onko viistosuunnassa oikealle voittoa
+                        if (gameBoard[i + 1, j + 1] == player && gameBoard[i + 2, j + 2] == player && gameBoard[i + 3, j + 3] == player)
+                        {
+                            draw();
+                            Console.WriteLine($"{player} wins!");
+                            Environment.Exit(1);
+                        }
+
+                        // tarkistaa onko viistosuunnassa vasemmalle voittoa
+                        if (gameBoard[i + 1, j - 1] == player && gameBoard[i + 2, j - 2] == player && gameBoard[i + 3, j - 3] == player)
+                        {
+                            draw();
+                            Console.WriteLine($"{player} wins!");
+                            Environment.Exit(1);
                         }
                     }
                 }
             }
-            
         }
     }
 }
